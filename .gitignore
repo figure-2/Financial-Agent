@@ -1,0 +1,76 @@
+# 보안 파일 (절대 커밋 금지)
+.env
+.env.local
+.env.*.local
+configs/config.yaml
+
+# 파이썬 부산물
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 주피터 노트북 체크포인트
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# 모델 파일 (용량이 크므로 제외 권장)
+*.pt
+*.pth
+*.pkl
+*.ckpt
+*.h5
+*.hdf5
+models/
+checkpoints/
+
+# 데이터 파일 (필요시 제외)
+data/*.csv
+data/*.json
+!data/conditional_queries.json
+!data/open_queries.json
+!data/signal_queries.json
+!data/simple_queries.json
+!data/task5.json
+
+# 로그 파일
+*.log
+log_*.txt
+
+# 결과 파일
+results/
+*.png
+*.jpg
+*.jpeg
+
+# 임시 파일
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# OS 파일
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE 파일
+.vscode/
+.idea/
+*~
+
+# 가상환경
+venv/
+env/
+ENV/
+.venv
+
+# Docker
+docker/chrome_driver.sh
+
+# 데이터베이스
+*.db
+*.sqlite
+*.sqlite3
+

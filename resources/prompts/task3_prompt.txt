@@ -1,0 +1,55 @@
+기술적 지표에 대한 자연어 질문을 분석하여, 아래에 정의된 JSON 형식의 실행 계획으로 변환해 주세요.
+
+**주요 기술적 지표 정의:**
+- **골든크로스**: 5일 이동평균선이 20일 이동평균선을 상향 돌파하는 경우.
+- **데드크로스**: 5일 이동평균선이 20일 이동평균선을 하향 돌파하는 경우.
+- **RSI**: 14일을 기준으로 계산하며, 과매수(overbought) 기준은 70, 과매도(oversold) 기준은 30입니다.
+- **볼린저 밴드**: 20일 이동평균선과 2 표준편차를 사용하여 계산합니다.
+
+**JSON 출력 형식:**
+- **`task_type` (작업 유형)**: 아래 중 하나의 값을 가집니다.
+    - `DETECT_SIGNAL`: 특정일 검색
+    - `FIND_SIGNAL_PERIOD`: 기간 검색
+    - `COUNT_SIGNAL_PERIOD`: 기간 내 횟수 계산
+- **`parameters` (파라미터)**: 추출된 파라미터를 담는 딕셔너리입니다.
+    - `date`: 특정일 검색 시 사용되는 날짜 (형식: "YYYY-MM-DD")
+    - `start_date`: 기간 검색 시작일 (형식: "YYYY-MM-DD")
+    - `end_date`: 기간 검색 종료일 (형식: "YYYY-MM-DD")
+    - `signal_type`: 아래 중 하나의 값을 가집니다.
+        - `RSI_OVERBOUGHT`: RSI 과매수
+        - `RSI_OVERSOLD`: RSI 과매도
+        - `VOLUME_SURGE`: 거래량 급증
+        - `MA_BREAKOUT`: 이동평균선 돌파
+        - `BBAND_UPPER_TOUCH`: 볼린저 밴드 상단 접촉
+        - `BBAND_LOWER_TOUCH`: 볼린저 밴드 하단 접촉
+        - `GOLDEN_CROSS`: 골든크로스
+        - `DEAD_CROSS`: 데드크로스
+        - `CROSS_INTEGRATED`: 골든크로스 또는 데드크로스 통합 검색
+    - `stock_name`: (선택 사항) 특정 종목의 이름입니다.
+    - `thresholds`: (선택 사항) 기본값과 다른 기준을 사용할 경우 지정합니다. 예: `{{"rsi": 80}}`. 지정하지 않으면 기본값을 따릅니다.
+
+**변환 예시:**
+질문: 2025-01-20에 RSI 과매수 종목을 알려줘
+답변: {{"task_type": "DETECT_SIGNAL", "parameters": {{"date": "2025-01-20", "signal_type": "RSI_OVERBOUGHT", "thresholds": {{"rsi": 70}}}}}}
+
+질문: 2025-03-06에 RSI가 20 이하인 과매도 종목을 알려줘
+답변: {{"task_type": "DETECT_SIGNAL", "parameters": {{"date": "2025-03-06", "signal_type": "RSI_OVERSOLD", "thresholds": {{"rsi": 20}}}}}}
+
+질문: 2025-02-17에 거래량이 20일 평균 대비 300% 이상 급증한 종목을 알려줘
+답변: {{"task_type": "DETECT_SIGNAL", "parameters": {{"date": "2025-02-17", "signal_type": "VOLUME_SURGE", "thresholds": {{"volume_surge_percent": 300}}}}}}
+
+질문: 2024-07-05에 종가가 60일 이동평균보다 3% 이상 높은 종목을 알려줘
+답변: {{"task_type": "DETECT_SIGNAL", "parameters": {{"date": "2024-07-05", "signal_type": "MA_BREAKOUT", "thresholds": {{"ma_period": 60, "ma_breakout_percent": 3}}}}}}
+
+질문: 2024-09-11부터 2024-10-11까지 데드크로스가 발생한 종목을 알려줘
+답변: {{"task_type": "FIND_SIGNAL_PERIOD", "parameters": {{"start_date": "2024-09-11", "end_date": "2024-10-11", "signal_type": "DEAD_CROSS"}}}}
+
+질문: 현대백화점에서 2024-06-01부터 2025-06-30까지 골든크로스가 몇번 발생했어?
+답변: {{"task_type": "COUNT_SIGNAL_PERIOD", "parameters": {{"stock_name": "현대백화점", "start_date": "2024-06-01", "end_date": "2025-06-30", "signal_type": "GOLDEN_CROSS"}}}}
+
+질문: 패션플랫폼이 2024-06-01부터 2025-06-30까지 데드크로스 또는 골든크로스가 몇번 발생했어?
+답변: {{"task_type": "COUNT_SIGNAL_PERIOD", "parameters": {{"stock_name": "패션플랫폼", "start_date": "2024-06-01", "end_date": "2025-06-30", "signal_type": "CROSS_INTEGRATED"}}}}
+
+**이제 다음 질문을 분석해 주세요. 다른 부가 설명 없이 요청된 JSON 형식의 답변만 반환해야 합니다.**
+질문: {query}
+답변:

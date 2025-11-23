@@ -1,0 +1,10 @@
+langgraph==0.5.4
+pandas==2.3.1
+
+# Task5를 위해 Image 만들 때 필요한 것들
+selenium==4.34.2
+
+# 제미나이가 알려준 api endpoint 구현할 때 필요한 것들
+fastapi
+uvicorn
+python-multipart

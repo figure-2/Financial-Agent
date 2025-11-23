@@ -1,0 +1,51 @@
+금융 관련 질문을 분석하여, 정해진 JSON 형식의 실행 계획으로 변환해 주세요.
+
+**주요 기술적 지표 정의:**
+- **등락률**: 전일 수정 종가 기준으로 계산
+- **시가총액**: 실시간으로 계산
+
+**JSON 출력 형식:**
+- **`task_type` (작업 유형)**: 아래 중 하나의 값을 가집니다.
+    - `PRICE_INQUIRY`: 특정 종목의 가격 정보 조회
+    - `MARKET_STATISTICS`: 시장 전체의 통계 조회 (예: 상승/하락 종목 수)
+    - `RANKING`: 특정 기준으로 종목 순위 조회
+    - `COMPARISON`: 두 개 이상의 종목 또는 지수 비교
+    - `SPECIFIC_RANKING`: 특정 종목의 순위 조회
+    - `COMPARE_TO_AVERAGE`: 특정 종목과 시장 평균 비교
+    - `MARKET_PROPORTION`: 특정 종목이 시장 전체에서 차지하는 비중 계산
+
+- **`parameters` (매개변수)**: 작업에 필요한 정보들을 담는 딕셔너리입니다.
+    - `metric`: 조회 또는 비교할 데이터의 종류입니다. (예: 'open', 'high', 'low', 'close', 'change_rate', 'volume', 'market_cap')
+    - `statistic`: 시장 통계 조회 시 사용됩니다. (예: 'rising_stocks', 'falling_stocks', 'index_price')
+    - `rank_by`: 순위 조회 시 사용될 기준입니다. (예: 'price_increase'(상승률), 'price_decrease'(하락률), 'volume'(거래량))
+    - `stock_name`: 단일 종목을 대상으로 할 때 사용합니다. (선택 사항)
+    - `stock_names`: 여러 종목을 비교할 때 사용합니다. (선택 사항)
+    - `date`: "YYYY-MM-DD" 형식입니다.
+    - `market`: 'KOSPI' 또는 'KOSDAQ' 입니다. (선택 사항)
+    - `top_n`: 순위 조회 시 상위 몇 개를 가져올지 지정합니다. (선택 사항)
+
+**변환 예시:**
+질문: 동부건설우의 2024-11-06 시가는?
+답변: {{"task_type": "PRICE_INQUIRY", "parameters": {{"date": "2024-11-06", "stock_name": "동부건설우", "metric": "open"}}}}
+
+질문: 2025-01-20에서 KOSPI에서 상승률 높은 종목 5개는?
+답변: {{"task_type": "RANKING", "parameters": {{"date": "2025-01-20", "market": "KOSPI", "rank_by": "price_increase", "top_n": 5}}}}
+
+질문: 2025-04-07에 카카오과 현대차 중 시가총액이 더 큰 종목은?
+답변: {{"task_type": "COMPARISON", "parameters": {{"date": "2025-04-07", "stock_names": ["카카오", "현대차"], "metric": "market_cap"}}}}
+
+질문: 2025-05-22에 KOSPI와 KOSDAQ 중 더 높은 지수는?
+답변: {{"task_type": "COMPARISON", "parameters": {{"date": "2025-05-22", "stock_names": ["KOSPI", "KOSDAQ"], "metric": "close"}}}}
+
+질문: 2025-02-03에 셀트리온의 거래량 순위는?
+답변: {{"task_type": "SPECIFIC_RANKING", "parameters": {{"date": "2025-02-03", "stock_name": "셀트리온", "rank_by": "volume"}}}}
+
+질문: 2024-11-18에 카카오의 등락률이 시장 평균보다 높은가?
+답변: {{"task_type": "COMPARE_TO_AVERAGE", "parameters": {{"date": "2024-11-18", "stock_name": "카카오", "metric": "change_rate"}}}}
+
+질문: 2024-07-22에 NAVER의 거래량이 전체 시장 거래량의 몇 %인가?
+답변: {{"task_type": "MARKET_PROPORTION", "parameters": {{"date": "2024-07-22", "stock_name": "NAVER", "metric": "volume"}}}}
+
+**이제 다음 질문을 분석해 주세요:**
+질문: {query}
+답변:
