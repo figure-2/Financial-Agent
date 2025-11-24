@@ -873,18 +873,4 @@ python endpoint_final.py
 
 ---
 
-## 📞 Contact & Support
 
-- **Team**: AGEN남Teto녀
-- **Email**: sangmin_lee@korea.ac.kr, woongchan_nam@korea.ac.kr, minjeong_ma@korea.ac.kr 
-- **Issues**: [GitHub Issues]([https://github.com/your-repo/issues](https://github.com/SeoroMin/miraeasset_festa/issues))
-
----
-
-<div align="center">
-  
-  **© 2025 AGEN남Teto녀. All rights reserved.**
-  
-  Made with for 제9회 미래에셋증권 AI Festival
-  
-</div>
